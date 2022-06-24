@@ -47,7 +47,7 @@ function BackupManager(config) {
 
         if (!actions[action]) {
             return {
-                result : Response.ERROR_UNKNOWN,
+                result : Response.JEM_OPERATION_COULD_NOT_BE_PERFORMED,
                 error : "unknown action [" + action + "]"
             }
         }
@@ -80,7 +80,7 @@ function BackupManager(config) {
     };
 	
     me.checkCurrentlyRunningBackup = function () {
-	me.exec([
+	var resp = me.exec([
             [ me.cmd, [
                 'pgrep -f "%(envName)"_backup-logic.sh 1>/dev/null && echo "Running"; true'
             ], {
@@ -88,9 +88,14 @@ function BackupManager(config) {
                 envName : config.envName
             }]
         ]);
-	return {
-            "result": 0
-        };
+	if (resp.responses[0].out == "Running") {
+	    return {
+                result : Response.ERROR_UNKNOWN,
+                error : "Another backup process is already running"
+            }
+	} else {
+	    return { "result": 0};
+	}
     }
 
     me.backup = function () {
