@@ -9,7 +9,7 @@ BACKUP_COUNT=$7
 APP_PATH=$8
 
 function backup(){
-    touch /var/run/${ENV_NAME}_backup.pid
+    echo $$ > /var/run/${ENV_NAME}_backup.pid
     BACKUP_ADDON_REPO=$(echo ${BASE_URL}|sed 's|https:\/\/raw.githubusercontent.com\/||'|awk -F / '{print $1"/"$2}')
     BACKUP_ADDON_BRANCH=$(echo ${BASE_URL}|sed 's|https:\/\/raw.githubusercontent.com\/||'|awk -F / '{print $3}')
     BACKUP_ADDON_COMMIT_ID=$(git ls-remote https://github.com/${BACKUP_ADDON_REPO}.git | grep "/${BACKUP_ADDON_BRANCH}$" | awk '{print $1}')
