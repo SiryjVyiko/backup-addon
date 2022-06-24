@@ -78,6 +78,12 @@ function BackupManager(config) {
     me.uninstall = function () {
         return me.exec(me.clearScheduledBackups);
     };
+	
+    me.checkCurrentlyRunningBackup = function () {
+	return {
+            "result": 0
+        };
+    }
 
     me.backup = function () {
         var backupType,
@@ -92,6 +98,7 @@ function BackupManager(config) {
         return me.exec([
             [ me.checkEnvStatus ],
             [ me.checkStorageEnvStatus ],
+	    [ me.checkCurrentlyRunningBackup ],
             [ me.removeMounts ],
             [ me.addMountForBackupRestore ],
             [ me.cmd, [
@@ -115,6 +122,7 @@ function BackupManager(config) {
         return me.exec([
             [ me.checkEnvStatus ],
             [ me.checkStorageEnvStatus ],
+	    [ me.checkCurrentlyRunningBackup ],
             [ me.removeMounts ],
             [ me.addMountForBackupRestore ],
             [ me.cmd, [
@@ -150,6 +158,8 @@ function BackupManager(config) {
         [ me.removeMounts ]
     ]);
     }
+	
+
 
     me.addMountForBackupRestore = function addMountForBackupRestore() {
         var resp = jelastic.env.file.AddMountPointByGroup(config.envName, session, "cp", "/opt/backup", 'nfs4', null, '/data/' + config.envName, config.storageNodeId, 'WPBackupRestore', false);
