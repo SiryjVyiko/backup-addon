@@ -9,7 +9,7 @@ BACKUP_COUNT=$7
 APP_PATH=$8
 
 function backup(){
-    touch /var/log/${ENV_NAME}_backup.pid
+    touch /var/run/${ENV_NAME}_backup.pid
     BACKUP_ADDON_REPO=$(echo ${BASE_URL}|sed 's|https:\/\/raw.githubusercontent.com\/||'|awk -F / '{print $1"/"$2}')
     BACKUP_ADDON_BRANCH=$(echo ${BASE_URL}|sed 's|https:\/\/raw.githubusercontent.com\/||'|awk -F / '{print $3}')
     BACKUP_ADDON_COMMIT_ID=$(git ls-remote https://github.com/${BACKUP_ADDON_REPO}.git | grep "/${BACKUP_ADDON_BRANCH}$" | awk '{print $1}')
@@ -30,7 +30,7 @@ function backup(){
     RESTIC_PASSWORD=${ENV_NAME} restic forget -r /opt/backup --keep-last ${BACKUP_COUNT} --prune | tee -a ${BACKUP_LOG_FILE}
     echo $(date) ${ENV_NAME} "Checking the backup repository integrity and consistency after adding the new snapshot and rotating old ones" | tee -a ${BACKUP_LOG_FILE}
     RESTIC_PASSWORD=${ENV_NAME} restic -r /opt/backup check --read-data-subset=1/10 | tee -a ${BACKUP_LOG_FILE}
-    rm -f /var/log/${ENV_NAME}_backup.pid
+    rm -f /var/run/${ENV_NAME}_backup.pid
 }
 
 if [ "x$1" == "xbackup" ]; then
