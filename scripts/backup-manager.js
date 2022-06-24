@@ -95,7 +95,7 @@ function BackupManager(config) {
             [ me.removeMounts ],
             [ me.addMountForBackupRestore ],
             [ me.cmd, [
-		'[ -f /root/%(envName)_backup-logic.sh ] && rm -f /root/%(envName)_backup-logic.sh',
+		'[ -f /root/%(envName)_backup-logic.sh ] && rm -f /root/%(envName)_backup-logic.sh || true',
                 'wget -O /root/%(envName)_backup-logic.sh %(baseUrl)/scripts/%(envName)_backup-logic.sh',
                 'bash /root/%(envName)_backup-logic.sh backup %(baseUrl) %(backupType) %(nodeId) %(backupLogFile) %(envName) %(backupCount) %(appPath)'
             ], {
