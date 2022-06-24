@@ -82,7 +82,7 @@ function BackupManager(config) {
     me.checkCurrentlyRunningBackup = function () {
 	me.exec([
             [ me.cmd, [
-                'PROCESS_STRING=$(pgrep "%(envName)"_backup-logic.sh) && echo "Running"; true'
+                'pgrep "%(envName)"_backup-logic.sh && echo "Running"; true'
             ], {
                 nodeId : config.backupExecNode,
                 envName : config.envName
