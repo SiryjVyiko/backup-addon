@@ -151,6 +151,7 @@ globals:
   scriptSufix: wp-backup
 
 onInstall:
+  - script: ${baseUrl}/scripts/addLibs.js?_r=${fn.random}
   - installRestic
   - setSchedule
 
