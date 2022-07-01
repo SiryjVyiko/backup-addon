@@ -15,13 +15,13 @@ function createScript(scriptName) {
 
         scriptBody = replaceText(scriptBody, config);
 
-        jelastic.dev.scripting.DeleteScript(appid + "/" + storageApplicationId, session, scriptName);
+        jelastic.dev.scripting.DeleteScript(appid, session, scriptName);
 
-        resp = jelastic.dev.scripting.CreateScript(appid + "/" + storageApplicationId, session, scriptName, "js", scriptBody);
+        resp = jelastic.dev.scripting.CreateScript(appid, session, scriptName, "js", scriptBody);
 
         java.lang.Thread.sleep(1000);
 
-        jelastic.dev.scripting.Build(appid + "/" + storageApplicationId, session, scriptName);
+        jelastic.dev.scripting.Build(appid, session, scriptName);
     } catch (ex) {
         resp = {
             error: toJSON(ex)
@@ -31,7 +31,7 @@ function createScript(scriptName) {
     return resp;
 };
 
-resp = createScript("lib/cronToQuartz");
+resp = createScript("backupAddonLibs/cronToQuartz");
 if (resp.result != 0) return resp;
 
 return {
