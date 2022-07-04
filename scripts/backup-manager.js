@@ -98,7 +98,7 @@ function BackupManager(config) {
 	} else {
 	    return { "result": 0};
 	}
-    }
+    };
 
     me.backup = function () {
         var backupType,
@@ -170,11 +170,9 @@ function BackupManager(config) {
                 nodeGroup : "cp",
                 envName : config.envName
             }],
-        [ me.removeMounts ]
-    ]);
-    }
-	
-
+            [ me.removeMounts ]
+        ]);
+    };
 
     me.addMountForBackupRestore = function addMountForBackupRestore() {
         var resp = jelastic.env.file.AddMountPointByGroup(config.envName, session, "cp", "/opt/backup", 'nfs4', null, '/data/' + config.envName, config.storageNodeId, 'WPBackupRestore', false);
@@ -188,7 +186,7 @@ function BackupManager(config) {
             }
         }
         return resp;
-    }
+    };
 
     me.removeMounts = function removeMountForBackup() {
         var allMounts = jelastic.env.file.GetMountPoints(config.envName, session, config.backupExecNode).array;
@@ -200,7 +198,7 @@ function BackupManager(config) {
         return {
             "result": 0
         };
-    }
+    };
 
     me.checkEnvStatus = function checkEnvStatus() {
         if (!nodeManager.isEnvRunning()) {
@@ -428,14 +426,14 @@ function BackupManager(config) {
         }
             return resp;
         };
-    }
+    };
     
     function log(message) {
         Logger.debug(message);
         return jelastic.marketplace.console.WriteLog(appid, session, message);
-    }
+    };
 
     function _(str, values) {
         return new StrSubstitutor(values || {}, "%(", ")").replace(str);
-    }
+    };
 }
