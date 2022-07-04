@@ -426,9 +426,9 @@ function BackupManager(config) {
         }
             return resp;
         };
-    }
+    };
     
-    include_once com.hivext.scripting.backupAddonLibs.CronToQuartzConverter ;
+    include_once com.hivext.scripting.backupAddonLibs.CronToQuartzConverter;
 
     function log(message) {
         Logger.debug(message);
