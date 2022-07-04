@@ -31,7 +31,7 @@ function createScript(scriptName) {
     return resp;
 };
 
-resp = createScript("backupAddonLibs/cronToQuartz");
+resp = createScript("backupAddonLibs/CronToQuartzConverter");
 if (resp.result != 0) return resp;
 
 return {
